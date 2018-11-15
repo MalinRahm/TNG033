@@ -143,8 +143,10 @@ bool Set::operator!=(const Set& b) const
 
 bool Set::operator<(const Set& b) const 
 {
-    // Add code
-    return false;  // to be deleted
+    if(cardinality() < b.cardinality())
+        return true;
+    else
+        return false;
 }
 
 // Set union
@@ -244,8 +246,18 @@ Set Set::operator-(const Set& b) const
 // Set union with set {x}
 Set Set::operator+(int x) const 
 {
-    // Add code
-    return *this;  // to be deleted
+    Node *S1 = head;
+    
+    while(S1->next)
+    {
+        if(S1->value == x)
+            return *this;
+        S1 = S1->next;
+    }
+    
+    S1->next = new Node(x, nullptr);
+    
+    return *this;
 }
 
 // Set difference with set {x}
