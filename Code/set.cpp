@@ -152,64 +152,79 @@ bool Set::operator<(const Set& b) const
 Set Set::operator+(const Set& b) const 
 {
 	Set S;
-	Node *S1 = head;
-	Node *S2 = b.head;
-	Node *Sunion = S.head;
-	bool exists = false, exists2 = false;
-
-	while (S1->next && S2->next)
-	{
-		if (!S.empty())
-		{
-			exists = S.member(S1->next->value);
-			exists2 = S.member(S2->next->value);
-		}
-
-		if (S1->next->value < S2->next->value)
-		{
-				exists = S.member(S1->next->value);
-				if(!exists)
-					Sunion->next = new Node(S1->next->value, nullptr);
-				S1 = S1->next;
-		}
-		else if (S2->next->value < S1->next->value)
-		{
-				if(!exists2)
-					Sunion->next = new Node(S2->next->value, nullptr);
-				S2 = S2->next;
-		}
-		else
-		{
-			if(!exists2)
-				Sunion->next = new Node(S2->next->value, nullptr);
-			S1 = S1->next;
-			S2 = S2->next;
-		}
-		Sunion = Sunion->next;
-	}
-
-	if (S1->next)
-	{
-		while (S1->next)
-		{
-			exists = S.member(S1->next->value);
-			if(!exists)
-				Sunion->next = new Node(S1->next->value, nullptr);
-			S1 = S1->next;
-			Sunion = Sunion->next;
-		}
-	}
-
-	if (S2->next)
-	{
-		exists2 = S.member(S2->next->value);
-		if (!exists2)
-			Sunion->next = new Node(S2->next->value, nullptr);
-		S2 = S2->next;
-		Sunion = Sunion->next;
-	}
-
-    return S; 
+    Node *S1 = head;
+    Node *S2 = b.head;
+    Node *Sunion = S.head;
+    bool exists = false, exists2 = false;
+    
+    while (S1->next && S2->next)
+    {
+        if (!S.empty())
+        {
+            exists = S.member(S1->next->value);
+            exists2 = S.member(S2->next->value);
+        }
+        
+        if (S1->next->value < S2->next->value)
+        {
+            exists = S.member(S1->next->value);
+            if(!exists)
+            {
+                Sunion->next = new Node(S1->next->value, nullptr);
+                Sunion = Sunion->next;
+            }
+            S1 = S1->next;
+        }
+        else if (S2->next->value < S1->next->value)
+        {
+            if(!exists2)
+            {
+                Sunion->next = new Node(S2->next->value, nullptr);
+                Sunion = Sunion->next;
+            }
+            S2 = S2->next;
+        }
+        else
+        {
+            if(!exists2)
+            {
+                Sunion->next = new Node(S2->next->value, nullptr);
+                Sunion = Sunion->next;
+            }
+            S1 = S1->next;
+            S2 = S2->next;
+        }
+    }
+    
+    if (S1->next)
+    {
+        while (S1->next)
+        {
+            exists = S.member(S1->next->value);
+            if(!exists)
+            {
+                Sunion->next = new Node(S1->next->value, nullptr);
+                Sunion = Sunion->next;
+            }
+            S1 = S1->next;
+        }
+    }
+    
+    if (S2->next)
+    {
+        while (S2->next)
+        {
+            exists2 = S.member(S2->next->value);
+            if(!exists2)
+            {
+                Sunion->next = new Node(S2->next->value, nullptr);
+                Sunion = Sunion->next;
+            }
+            S2 = S2->next;
+        }
+    }
+    
+    return S;
 }
 
 // Set intersection
