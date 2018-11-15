@@ -111,8 +111,20 @@ Set& Set::operator=(const Set& s)
 
 bool Set::operator<=(const Set& b) const 
 {
-    // Add code
-    return false;  // to be deleted
+    if(empty() && b.empty())
+        return true;
+    else if(cardinality() > b.cardinality())
+        return false;
+    else if (cardinality() < b.cardinality())
+    {
+        return true;
+    }
+    else
+    {
+        if(b!=*this || b<*this)
+            return false;
+        return true;
+    }
 }
 
 bool Set::operator==(const Set& b) const 
