@@ -153,13 +153,32 @@ bool Set::operator!=(const Set& b) const
     return true; 
 }
 
-bool Set::operator<(const Set& b) const 
+bool Set::operator<(const Set& b) const
 {
     if(cardinality() < b.cardinality())
         return true;
-    else
+    else if (cardinality() > b.cardinality())
         return false;
+    else if (empty() && b.empty())
+        return false;
+    else //if equal number of elements
+    {
+        Node *C1 = head;
+        Node *C2 = b.head;
+        for(int i = 0; i < cardinality(); i++)
+        {
+            if(C1->value < C2->value)
+            {
+                C2 = C2->next;
+                C1 = C1->next;
+            }
+            else
+                return false;  
+        }
+         return true;
+    }
 }
+
 
 // Set union
 // Repeated values are not allowed
@@ -241,11 +260,30 @@ Set Set::operator+(const Set& b) const
     return S;
 }
 
-// Set intersection
-Set Set::operator*(const Set& b) const 
+// Set intersection, all elements alike should be in new list
+Set Set::operator*(const Set& b) const
 {
-    // Add code
-    return *this;  // to be deleted
+    Set S;
+    Node *S1 = head;
+    Node *S2 = b.head;
+    Node *Sintersect = S.head;
+    
+    while(S1->next)
+    {
+        while(S2->next)
+        {
+            if(S1->next->value == S2->next->value)
+            {
+                Sintersect->next = new Node(S1->next->value, nullptr);
+                Sintersect = Sintersect->next;
+            }
+            S2 = S2->next;
+        }
+        S2 = b.head;
+        S1 = S1->next;
+    }
+    
+    return S;
 }
 
 // Set difference
